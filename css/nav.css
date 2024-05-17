@@ -17,7 +17,15 @@ nav {
   margin: 0 3px;
 }
 
+.main-nav-links {
+  padding: 0 10px;
+}
+
 .nav-right {
   margin-left: auto;
   text-align: right;
+}
+
+.hidden {
+  display: none;
 }
