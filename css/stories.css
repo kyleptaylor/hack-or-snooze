@@ -7,14 +7,14 @@
 .stories-list > li {
   color: gray;
   font-size: 0.8rem;
-  margin: 10px 0;
+  margin: 10px 35px 10px 0;
   padding: 10px 10px 20px;
   border-bottom: 1px solid lightgray;
+  box-decoration-break: clone;
 }
 
 #stories-loading-msg {
   font-weight: bold;
-  font-size: 150%;
   margin: 20px 30px;
 }
 
@@ -22,6 +22,12 @@
 
 .fav-star {
   cursor: pointer;
+  font-size: large;
+}
+
+.fa-trash-alt {
+  cursor: pointer;
+  font-size: large;
 }
 
 .fav-star i {
@@ -38,7 +44,6 @@
 
 .delete-story .fas:hover {
   color: #ff6600;
-  cursor: pointer;
 }
 
 .story-link {
@@ -50,6 +55,7 @@
 
 .story-link:hover {
   text-decoration: none;
+  color: #ff6600;
 }
 
 .story-author {
