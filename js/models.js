@@ -23,8 +23,7 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    return new URL(this.url).host;
   }
 }
 
@@ -173,6 +172,58 @@ class User {
       },
       response.data.token
     );
+  }
+
+  async addFavoriteStory(story) {
+    const storyId = story.storyId;
+
+    // Check if the story is already in favorites
+    if (!this.favorites.some((fav) => fav.storyId === storyId)) {
+      this.favorites.push(story);
+
+      try {
+        const token = this.loginToken;
+        await axios.post(
+          `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
+          { token }
+        );
+      } catch (error) {
+        console.error("Error adding favorite story:", error);
+        // Remove the story from favorites if the API call fails
+        this.favorites.pop();
+        throw error;
+      }
+    }
+    return this.favorites;
+  }
+
+  async removeFavoriteStory(story) {
+    const storyId = story.storyId;
+
+    // Find the index of the story to remove
+    const indexToRemove = this.favorites.findIndex(
+      (fav) => fav.storyId === storyId
+    );
+
+    // Check if the story is in favorites
+    if (indexToRemove !== -1) {
+      // Remove the story from the list
+      this.favorites.splice(indexToRemove, 1);
+
+      try {
+        const token = this.loginToken;
+        await axios.delete(
+          `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
+          { data: { token } }
+        );
+      } catch (error) {
+        console.error("Error removing favorite story:", error);
+        // Add the story back to the list if the API call fails
+        this.favorites.splice(indexToRemove, 0, story);
+        throw error;
+      }
+    }
+    return this.favorites;
   }
 
   /** When we already have credentials (token & username) for a user,
