@@ -52,8 +52,8 @@ function generateStoryMarkup(story) {
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
-function putStoriesOnPage() {
-  console.debug("putStoriesOnPage");
+async function putStoriesOnPage() {
+  storyList = await StoryList.getStories();
 
   $allStoriesList.empty();
 
@@ -87,3 +87,88 @@ async function submitNewStory(evt) {
 }
 
 $submitForm.on("submit", submitNewStory);
+
+function putOwnStoriesOnPage() {
+  hidePageComponents();
+
+  // loop through all user favorite stories and generate HTML for them
+  $myStoriesList.empty();
+
+  if (currentUser.ownStories.length === 0) {
+    $myStoriesList.append(
+      `<a href="#" onclick="navSubmitStoryClick()"><h5>No stories added! Click here to add a story.</h5></a>`
+    );
+  } else {
+    // loop through all of users favorites and generate HTML for them
+    for (let story of currentUser.ownStories) {
+      const $story = generateStoryMarkup(story);
+      $story.prepend(
+        `<span class="delete-story"><i class="fas fa-trash-alt"></i></span>`
+      );
+      $myStoriesList.append($story);
+    }
+  }
+
+  $myStoriesList.show();
+}
+
+$navMyStories.on("click", putOwnStoriesOnPage);
+
+async function removeMyStory(evt) {
+  evt.preventDefault();
+
+  const $tgt = $(evt.target);
+  const $closestLi = $tgt.closest("li");
+  const storyId = $closestLi.attr("id");
+  const story = currentUser.ownStories.find((s) => s.storyId === storyId);
+
+  $closestLi.remove();
+  currentUser.removeUserStory(story);
+  putOwnStoriesOnPage();
+}
+
+$myStoriesList.on("click", ".fa-trash-alt", removeMyStory);
+
+function putFavStoriesOnPage() {
+  hidePageComponents();
+
+  // loop through all user favorite stories and generate HTML for them
+  $favStoriesList.empty();
+
+  if (currentUser.favorites.length === 0) {
+    $favStoriesList.append(
+      `<a href="#" onclick="navAllStories()"><h5>No favorites added! Click here to view all stories.</h5></a>`
+    );
+  } else {
+    // loop through all of users favorites and generate HTML for them
+    for (let story of currentUser.favorites) {
+      const $story = generateStoryMarkup(story);
+      $favStoriesList.append($story);
+    }
+  }
+
+  $favStoriesList.show();
+}
+
+$navFavorites.on("click", putFavStoriesOnPage);
+
+async function favoriteStory(evt) {
+  evt.preventDefault();
+
+  const $tgt = $(evt.target);
+  const $closestLi = $tgt.closest("li");
+  const liClass = $tgt.attr("class");
+  const storyId = $closestLi.attr("id");
+  const $iElement = $closestLi.find("i.fa-star");
+  const story = storyList.stories.find((s) => s.storyId === storyId);
+
+  if (liClass === "fa-star far") {
+    currentUser.addFavoriteStory(story);
+    $iElement.removeClass("far").addClass("fas");
+  } else {
+    currentUser.removeFavoriteStory(story);
+    $iElement.removeClass("fas").addClass("far");
+  }
+}
+
+$storiesLists.on("click", ".fav-star", favoriteStory);

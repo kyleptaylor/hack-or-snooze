@@ -26,6 +26,15 @@
   color: #ff6600;
 }
 
+.fav-star .fas {
+  color: #ff6600;
+}
+
+.delete-story .fas:hover {
+  color: #ff6600;
+  cursor: pointer;
+}
+
 .story-link {
   color: black;
   font-size: 0.85rem;

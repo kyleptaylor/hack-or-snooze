@@ -226,6 +226,34 @@ class User {
     return this.favorites;
   }
 
+  async removeUserStory(story) {
+    const storyId = story.storyId;
+
+    // Find the index of the story to remove
+    const indexToRemove = this.ownStories.findIndex(
+      (story) => story.storyId === storyId
+    );
+
+    // Check if the story is in own stories
+    if (indexToRemove !== -1) {
+      // Remove the user story from the list
+      this.ownStories.splice(indexToRemove, 1);
+
+      try {
+        const token = this.loginToken;
+        await axios.delete(`${BASE_URL}/stories/${storyId}`, {
+          data: { token },
+        });
+      } catch (error) {
+        console.error("Error removing user story:", error);
+        // Add the story back to the list if the API call fails
+        this.ownStories.splice(indexToRemove, 0, story);
+        throw error;
+      }
+    }
+    return await this.ownStories;
+  }
+
   /** When we already have credentials (token & username) for a user,
    *   we can log them in automatically. This function does that.
    */
