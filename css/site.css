@@ -2,22 +2,27 @@
 
 body {
   font-family: Arimo, sans-serif;
-  margin: 8px 7.5vw;
+  height: calc(100vh - 16px);
+  background: radial-gradient(#b6b0dd, #97bbe9);
 }
 
 h1 {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   margin: 0;
 }
 
 h4 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   margin: 0;
 }
 
 h5 {
   font-size: 0.9rem;
   font-weight: lighter;
+}
+
+small {
+  font-size: 1.2em;
 }
 
 a {
@@ -28,7 +33,6 @@ a {
 a:hover {
   text-decoration: underline;
 }
-
 
 /* Site layout */
 
@@ -43,7 +47,6 @@ a:hover {
 .hidden {
   display: none;
 }
-
 
 /* Forms */
 
@@ -105,7 +108,6 @@ form > hr {
 .login-input label {
   width: 70px;
 }
-
 
 /* responsive queries for tightening things up for mobile. */
 

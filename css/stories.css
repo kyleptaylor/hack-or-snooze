@@ -8,6 +8,8 @@
   color: gray;
   font-size: 0.8rem;
   margin: 10px 0;
+  padding: 10px 10px 20px;
+  border-bottom: 1px solid lightgray;
 }
 
 #stories-loading-msg {
@@ -20,6 +22,10 @@
 
 .fav-star {
   cursor: pointer;
+}
+
+.fav-star i {
+  padding: 0 0 10px 0;
 }
 
 .fav-star:hover {
@@ -36,10 +42,10 @@
 }
 
 .story-link {
-  color: black;
-  font-size: 0.85rem;
-  font-weight: normal;
-  margin: 18px 0;
+  color: #252523;
+  font-size: 1.3em;
+  font-weight: bold;
+  padding: 5px;
 }
 
 .story-link:hover {
@@ -47,9 +53,13 @@
 }
 
 .story-author {
-  margin-left: 2em;
+  display: block;
+  padding: 5px 25px;
+  color: green;
 }
 
 .story-user {
   display: block;
+  color: #f59f33;
+  padding: 5px 25px;
 }
